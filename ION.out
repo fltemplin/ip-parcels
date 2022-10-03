@@ -1,0 +1,10 @@
+#
+# USE WITH CAUTION
+#
+# Copies local hierarchy files to ../ION-DTN and ../kernel. This is used to
+# prep new ION and kernel build directories based on the git code as the master.
+#
+# USE WITH CAUTION
+#
+cp ./ION-DTN/ion-open-source-4.1.0/ltp/udp/{libudplsa.c,udplsa.h,udplsi.c,udplso.c} ../ION-DTN/ion-open-source-4.1.0/ltp/udp
+cp ./ION-DTN/ion-open-source-4.1.0/ltp/library/ltpP.h ../ION-DTN/ion-open-source-4.1.0/ltp/library

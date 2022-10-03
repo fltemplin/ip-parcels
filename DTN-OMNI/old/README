@@ -1,0 +1,61 @@
+Steps for ION LTP performance testing between three Ubuntu nodes. This
+assumes bare-metal hardware installs, although the same configs could
+be used in VM's (CORE, vmware, virtualbox, etc.). The IP address given
+in the ifconfig statement below as "*.*.*.*" should be changed to
+whatever IP address you are using in your testbed.
+
+
+O) Install the latest Ubuntu and ION releases. Ubuntu is currently at
+   16.04 but 14.04 is also fine. ION is currently at 3.6.1.
+
+1) in /etc/sysctl.conf, add "kernel.shmmax=640000000" (only on first start),
+   then reboot. This allows ION to reserve larger shared memory and heap
+   storage.
+
+2) On one node, install the subdir "25-ltp-ipn" and on the second node
+   install the subdir "8-ltp-ipn". The third node ("20-ltp-ipn") can be
+   run on a third node if there is desire to include a fowarding node.
+   In that case, node 25 is the forwarding node (8 and 20 are end nodes).
+
+3) On each node, cd to the correct subdir, then type: 
+
+  # sh netup.sh
+  # export ION_NODE_LIST_DIR=.
+
+4) run "./ionstart"
+
+5) in each subdir there are scripts called "file_make.pl" and
+   "file10_make.pl" that are useful for creating large testfiles
+
+6) use "traditional" ION commands to transmit files:
+
+-> on node 8, type: "bprecvfile ipn:8.2"
+-> on node 25, type: "bpsendfile ipn:25.2 ipn:8.2 /tmp/foo" (substitute
+   actual filename for "/tmp/foo")
+
+-> on node 8, type: "bpcounter ipn:8.2"
+-> on node 25, type: "bpdriver 1 ipn:25.2 ipn:8.2 -1000000" (substitute
+   larger values for "1" and "100000" as desired)
+
+-> on node 25, type "cfdptest" (don't need to start a daemon on node 8
+-> since bputa is already running
+
+7) When done testing, type "ionstop" to start from a clean slate
+
+8) DTNperf3 is also useful in some cases. On the Server, type:
+
+      # dtnperf --server
+
+   and, on the client, type:
+
+      # dtnperf --client -d ipn:25.2000 [ -T <seconds> -or- -D <size>
+        -or- -F <filename> ] [ -W <window-size> -or- -R <rate> ]
+
+9) On nodes 20 and 25, there are many "span" lines with all but one
+   commented out. Experiment with different "span" lines, but make
+   sure both nodes are using the same configuration.
+
+10) In the udplso.c code, try different values for "usecs" and
+    recompile and re-install ION. Values I have tried are 10000,
+    1000, 500, 250, 100, 50, 25, 10, 1. The best performance was
+    with usecs = 25

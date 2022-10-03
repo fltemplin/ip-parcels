@@ -1,0 +1,43 @@
+This marked-up version of bprecvfile.c is relative to ion-3.6.1. It
+allows setting of a "base" testfile number so that multiple instances
+of bprecvfile can be run without mutual interference of the file
+creations. So, for example, it can be run as:
+
+  bprecvfile ipn:25.1 0 100
+  bprecvfile ipn:25.2 0 200
+  bprecvfile ipn:25.3 0 300
+  bprecvfile ipn:25.4 0 400
+
+In this example, four instances of bprecvfile are run. The first arguement
+is the local endpoint ID, the second is the number of files to receive
+(0 means infinity) and the third arguement is the base number for the
+creation of testfiles. So, for example, if each bprecvfile instance
+received a single file, the testfiles would show up as:
+
+  testfile101
+  testfile201
+  testfile301
+  testfile401
+
+On the sending side, just use bpsendfile as normal while specifying the
+EID of a listening bprecvfile.
+
+To build, set up an ion-3.6.1 source tree hierarchy and type:
+
+  # mv ion-3.6.1/bp/utils/bprecvfile.c ion-3.6.1/bp/utils/bprecvfile.c.orig
+
+then, copy this modified version in place of the original:
+
+  # cp bprecvfile.c ion-3.6.1/bp/utils
+
+Then, go to the top-level directory (ion-3.6.1) and type:
+
+  # ./configure
+  # make
+  # make install
+  # ldconfig
+
+Note that, even though you only need to modify bprecvfile itself you
+need to do a formal "make install" (i.e., and not just manually copy the
+executable to the /usr/local/bin directory). Copying the file w/o a make
+install leaves you with a non-functioanl executable.

@@ -1,0 +1,4 @@
+# shell script to get node running
+#!/bin/bash
+#knadmin		../node.knrc.fast
+knadmin		../node.knrc

@@ -1,0 +1,217 @@
+node n8 {
+    type router
+    model host
+    network-config {
+	hostname 8-ipn-ltp
+	!
+	interface eth0
+	 ip address 10.0.1.2/24
+	!
+    }
+    canvas c1
+    iconcoords {662.0 320.0}
+    labelcoords {662.0 352.0}
+    services {DefaultRoute SSH UserDefined}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('ionstart.sh', )
+	cmdup=('sh ionstart.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:ionstart.sh
+	custom-command ionstart.sh
+	config {
+	#!/bin/sh
+	. ${SESSION_FILENAME%/*}/ionize
+	killm; sleep 1
+	./ionstart; sleep 1
+	bpecho ipn:8.1 &
+	}
+    }
+    interface-peer {eth0 n25}
+}
+
+node n20 {
+    type router
+    model host
+    network-config {
+	hostname 20-ipn-ltp
+	!
+	interface eth0
+	 ip address 192.0.2.1/24
+	 ipv6 address fe80::1/64
+	!
+    }
+    canvas c1
+    iconcoords {216.0 319.0}
+    labelcoords {216.0 351.0}
+    services {SSH UserDefined}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('ionstart.sh', )
+	cmdup=('sh ionstart.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:ionstart.sh
+	custom-command ionstart.sh
+	config {
+	#!/bin/sh
+	. ${SESSION_FILENAME%/*}/ionize
+	./OMNI
+	killm; sleep 1
+	./ionstart; sleep 1
+	#bpecho ipn:20.1 &
+	}
+    }
+    interface-peer {eth0 n25}
+}
+
+node n25 {
+    type router
+    model router
+    network-config {
+	hostname 25-ipn-ltp
+	!
+	interface eth0
+	 ip address 192.0.2.2/24
+	 ipv6 address fe80::2/64
+	!
+	interface eth1
+	 ip address 10.0.1.1/24
+	!
+    }
+    canvas c1
+    iconcoords {437.0 461.0}
+    labelcoords {437.0 493.0}
+    services {IPForward UserDefined}
+    custom-config {
+	custom-config-id service:UserDefined
+	custom-command UserDefined
+	config {
+	files=('ionstart.sh', )
+	cmdup=('sh ionstart.sh', )
+	}
+    }
+    custom-config {
+	custom-config-id service:UserDefined:ionstart.sh
+	custom-command ionstart.sh
+	config {
+	#!/bin/sh
+	. ${SESSION_FILENAME%/*}/ionize
+	./OMNI
+	killm; sleep 1
+	./ionstart; sleep 1
+	#bpecho ipn:25.1 &
+	}
+    }
+    interface-peer {eth0 n20}
+    interface-peer {eth1 n8}
+}
+
+link l1 {
+    nodes {n25 n20}
+    bandwidth 0
+}
+
+link l2 {
+    nodes {n25 n8}
+    bandwidth 0
+}
+
+annotation a4 {
+    iconcoords {225 204 668 503}
+    type oval
+    label {}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    color #dcd8bb
+    width 0
+    border #fcdbac
+    canvas c3
+}
+
+annotation a5 {
+    iconcoords {132.0 211.0 762.0 513.0}
+    type rectangle
+    label {}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    color #c0e3ff
+    width 0
+    border black
+    rad 25
+    canvas c4
+}
+
+annotation a8 {
+    type text
+    iconcoords {567.0 66.0}
+    label {}
+    canvas c1
+}
+
+annotation a10 {
+    iconcoords {387.0 475.0}
+    type text
+    label {ISS On-Board LAN}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {12}
+    canvas c4
+}
+
+annotation a12 {
+    type text
+    iconcoords {217.0 150.0}
+    label {}
+    canvas c2
+}
+
+annotation a13 {
+    iconcoords {344.0 320.0}
+    type text
+    label {Mars Terrestrial Internet}
+    labelcolor black
+    fontfamily {Arial}
+    fontsize {18}
+    canvas c3
+}
+
+canvas c1 {
+    name {Solar System Internet}
+}
+
+hook 3:instantiation_hook.sh {
+#!/bin/sh
+# session hook script; write commands here to execute on the host at the
+# specified state
+#${SESSION_FILENAME%/*}/cleanup
+cd ${SESSION_FILENAME%/*}
+./cleanup
+}
+
+option global {
+    interface_names no
+    ip_addresses yes
+    ipv6_addresses no
+    node_labels yes
+    link_labels yes
+    show_api no
+    background_images no
+    annotations yes
+    grid yes
+    locked yes
+    traffic_start 0
+}
+
+option session {
+}
+

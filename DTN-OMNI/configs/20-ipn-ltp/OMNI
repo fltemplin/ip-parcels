@@ -1,0 +1,12 @@
+#!/bin/sh
+ip -6 addr add fe80::1 dev eno1
+ip -6 tun add omni0 mode ipip6 local fe80::1 remote fe80::2 dev eno1
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 1400
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 2000
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 4000
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 8000
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 16000
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 32000
+#ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 64000
+ifconfig omni0 192.168.0.1 netmask 255.255.255.0 mtu 65000
+#ifconfig eno1 mtu 9000

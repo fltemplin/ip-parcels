@@ -1,0 +1,10 @@
+#
+# Generate ION diffs
+#
+echo "ip-parcels ION-DTN diffs" > /tmp/ion.diff
+echo "************************" >> /tmp/ion.diff
+diff -u ./ION-DTN/ion-open-source-4.1.0/ltp/udp/libudplsa.c ../ION-DTN/ion-open-source-4.1.0.orig/ltp/udp >> /tmp/ion.diff
+diff -u ./ION-DTN/ion-open-source-4.1.0/ltp/udp/udplsa.h ../ION-DTN/ion-open-source-4.1.0.orig/ltp/udp >> /tmp/ion.diff
+diff -u ./ION-DTN/ion-open-source-4.1.0/ltp/udp/udplsi.c ../ION-DTN/ion-open-source-4.1.0.orig/ltp/udp >> /tmp/ion.diff
+diff -u ./ION-DTN/ion-open-source-4.1.0/ltp/udp/udplso.c ../ION-DTN/ion-open-source-4.1.0.orig/ltp/udp >> /tmp/ion.diff
+diff -u ./ION-DTN/ion-open-source-4.1.0/ltp/library/ltpP.h ../ION-DTN/ion-open-source-4.1.0.orig/ltp/library >> /tmp/ion.diff

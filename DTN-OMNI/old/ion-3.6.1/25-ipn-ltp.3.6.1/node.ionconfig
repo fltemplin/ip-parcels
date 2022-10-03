@@ -1,0 +1,6 @@
+wmKey 65281
+sdrName ion25
+pathName ./SDR
+wmSize 5000000
+configFlags 1
+heapWords 5000000

@@ -1,0 +1,15 @@
+#
+# USE WITH CAUTION
+#
+# Copies changed source files from ../ION-DTN and ../kernel to local hierachy.
+# This assumes most recent versions are in those directories and ready to be
+# uploaded to git from a tar of the ip-parcels hierarchy.
+#
+# USE WITH CAUTION
+#
+cp ../kernel/linux-5.10.67/net/core/{dev.c,skbuff.c,sock.c} ./kernel/linux-5.10.67/net/core
+cp ../kernel/linux-5.10.67/net/ipv4/{ip_input.c,ip_options.c,ip_output.c,udp.c} ./kernel/linux-5.10.67/net/ipv4
+cp ../kernel/linux-5.10.67/net/ipv6/{ip6_tunnel.c,udp.c} ./kernel/linux-5.10.67/net/ipv6
+cp ../kernel/linux-5.10.67/include/linux/{udp.h,skbuff.h} ./kernel/linux-5.10.67/include/linux
+cp ../kernel/linux-5.10.67/include/net/{udp.h,ipv6.h,inet_sock.h,ip.h} ./kernel/linux-5.10.67/include/net
+cp ../kernel/linux-5.10.67/include/uapi/linux/ip.h ./kernel/linux-5.10.67/include/uapi/linux

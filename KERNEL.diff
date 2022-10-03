@@ -1,0 +1,21 @@
+#
+# Generate Kernel diffs
+#
+echo "ip-parcels kernel diffs" > /tmp/kernel.diff
+echo "***********************" >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/core/dev.c ../kernel/linux-5.10.67.orig/net/core >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/core/skbuff.c ../kernel/linux-5.10.67.orig/net/core >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/core/sock.c ../kernel/linux-5.10.67.orig/net/core >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv4/ip_input.c ../kernel/linux-5.10.67.orig/net/ipv4 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv4/ip_options.c ../kernel/linux-5.10.67.orig/net/ipv4 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv4/ip_output.c ../kernel/linux-5.10.67.orig/net/ipv4 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv4/udp.c ../kernel/linux-5.10.67.orig/net/ipv4 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv6/ip6_tunnel.c ../kernel/linux-5.10.67.orig/net/ipv6 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/net/ipv6/udp.c ../kernel/linux-5.10.67.orig/net/ipv6 >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/linux/udp.h ../kernel/linux-5.10.67.orig/include/linux >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/linux/skbuff.h ../kernel/linux-5.10.67.orig/include/linux >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/net/udp.h ../kernel/linux-5.10.67.orig/include/net >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/net/ipv6.h ../kernel/linux-5.10.67.orig/include/net >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/net/inet_sock.h ../kernel/linux-5.10.67.orig/include/net >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/net/ip.h ../kernel/linux-5.10.67.orig/include/net >> /tmp/kernel.diff
+diff -u ./kernel/linux-5.10.67/include/uapi/linux/ip.h ../kernel/linux-5.10.67.orig/include/uapi/linux >> /tmp/kernel.diff

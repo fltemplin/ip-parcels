@@ -1,0 +1,5 @@
+1
+x
+a key key1 key1.hmk
+a bspbibrule ipn:8.* ipn:20.* 1 'BIB-HMAC-SHA256' key1
+a bspbcbrule ipn:8.* ipn:20.* 1 'BCB-AES128-CFB' key1

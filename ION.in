@@ -1,0 +1,11 @@
+#
+# USE WITH CAUTION
+#
+# Copies changed source files from ../ION-DTN and ../kernel to local hierachy.
+# This assumes most recent versions are in those directories and ready to be
+# uploaded to git from a tar of the ip-parcels hierarchy.
+#
+# USE WITH CAUTION
+#
+cp ../ION-DTN/ion-open-source-4.1.0/ltp/udp/{libudplsa.c,udplsa.h,udplsi.c,udplso.c} ./ION-DTN/ion-open-source-4.1.0/ltp/udp
+cp ../ION-DTN/ion-open-source-4.1.0/ltp/library/ltpP.h ./ION-DTN/ion-open-source-4.1.0/ltp/library

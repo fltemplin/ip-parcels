@@ -1,0 +1,36 @@
+IP Parcels and GSO/GRO are enabled through compile-time options set during
+the run of ./configure. First, do a "make clean", then issue ./configure using
+one of the following forms:
+
+./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPSTAT"
+
+The above form disables GSO/GRO and IP parcels and runs with ordinary IP
+packets. Try changing -DMULTISEND_BATCH_LIMIT to different values like
+1, 4, 8, 12, etc. to see if any performance changes are seen.
+
+./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPGSO -DLTPGRO -DLTPGSO_LIMIT=8 -DLTPSTAT"
+
+The above form enables GSO/GRO and disables IP parcels. Try changing
+-DMULTISEND_BATCH_LIMIT as above, and also try changing -DLTPGSO_LIMIT
+in a similar fashion.
+
+./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPGSO -DLTPGRO -DLTPPARCEL -DLTPGSO_LIMIT=8 -DLTPSTAT"
+
+The above form enables both GSO/GRO and IP Parcels, but only IP Parcels will
+be sent/received. In the future, GSO/GRO vs. IP Parcels will be selected on a
+per-packet basis at runtime but for now only IP Parcels are exchanged. As above,
+try varying -DMULTISEND_BATCH_LIMIT and -DLTPGSO_LIMIT.
+
+./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPGSO -DLTPGRO -DLTPPARCEL -DLTPPARCEL_CSUM_RX -DLTPPARCEL_CSUM_TX -DLTPGSO_LIMIT=8 -DLTPSTAT"
+
+The above form will cause the ION application to perform receive-side (RX) and
+transmit-side (TX) checksum calculations. When either or both of these flags
+are set, the kernel will not perform that function and will instead pass the
+parcel segments to or from ION with the understanding that ION is performing
+the necessary checksums at the application layer.
+
+Finally, whent the flag "-DLTPPARCL_CSUM_0" is set, the ION node that sends
+IP parcels will write the value '0' in each parcel segment checksum field so
+that no checksum calculations are performed. This may be useful for obtaining
+"raw" performance figures at the risk of transmitting and/or receiving corrupt
+parcel segments.

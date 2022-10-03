@@ -1,0 +1,6 @@
+for fn in `ls -d ${SESSION_FILENAME%/*}/*/ | awk -F / {'print $(NF-1)'}`; do
+    if [ "`hostname`" = "$fn" ]; then
+	export ION_NODE_LIST_DIR=${SESSION_FILENAME%/*}
+	cd ${SESSION_FILENAME%/*}/`hostname`
+    fi
+done

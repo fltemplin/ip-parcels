@@ -1,0 +1,5 @@
+wmKey 65281
+sdrName ion25
+wmSize 500000000
+configFlags 1
+heapWords 500000000

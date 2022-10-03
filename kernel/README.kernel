@@ -1,0 +1,46 @@
+This distribution includes patches for the linux-5.10.67 kernel source tree
+found at kernel.org. Untar the linux-5.10.67 sources under ~/src/kernel in
+your home directory, and use the patch files found in this distribution to
+overwrite the vanilla linux-5.10.67 files of the same names. The script
+"KERNEL.out" in the above directory will automate this step, but be sure
+that you have everything in the right subdirectories before running.
+
+NOTE WELL: One of the files that gets patched is the linux "ip6_tunnel.c"
+implementation of the RFC2473 "Generic Packet Tunneling in IPv6 Specification".
+The patches cause the tunnel driver to perform IPv6 fragmentation when the
+encapsulated packet is larger than the path MTU. This is non-standard behavior
+and will not interoperate with other implementations of IPv6 tunneling that
+do not include this patch. If this will present a problem for your environment,
+please do not proceed further. For this reason, it is highly recommended that
+this distribution only be used in private controlled testbed environments
+and not on public Internetworks.
+
+After a fresh install of linux-5.10.67 kernel sources from the tarfile followed
+by updating the patched files, go to the top-level directory and type:
+
+  # make menuconfig
+
+When the GUI comes up, exit out and select "Yes" to save the configuration
+without making any changes. Then, edit ".config" and make sure the following
+line is present:
+
+CONFIG_VETH=y
+
+You may need to also disable certs/keys in .config by making sure the
+following config lines appear with NULL strings (edit if necessary):
+
+CONFIG_SYSTEM_TRUSTED_KEYS=""
+CONFIG_SYSTEM_REVOCATION_KEYS=""
+
+Finally, build with:
+
+# make -j4
+# sudo make modules_install
+# sudo make install
+
+If the kernel build is taking an unusually long time (e.g., 60 minutes or
+longer), it is probably trying to rebuild the entire world including tons of
+drivers and other modules that are not needed. If this happens, start again
+with a fresh kernel build area and repeat the above steps carefully. If the
+build still insists on building the entire world, you may need to consult
+with a linux kernel expert for other possible approaches.
