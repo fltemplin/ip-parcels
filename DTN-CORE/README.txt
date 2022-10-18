@@ -30,16 +30,19 @@ Node 20:
 
 This will run a performance test, which may or may not succeed. To run
 successive tests, rerun the bpcounter/bpdriver commands - always starting
-bpcounter first before running bpdriver.
+bpcounter first before running bpdriver. If no progress is made, try
+restarting the CORE model and start from scratch. If still no progress,
+try setting he bpdriver/bpcounter repetition counter to something smaller
+than 100 (e.g., 10, 1, etc.) and try again after a clean restart.
 
-As experience is gained wiht running the tests, make adjustments to the
+As experience is gained with running the tests, make adjustments to the
 node.ltprc files as necessary to run additional tests while stopping and
 restarting the CORE model and repeating the above commands for each test.
 
 IMPORTANT NOTE: Newer versions of the CORE network emulator are switching
 over to use *.xml configuration files instead of the legacy *.imn. The new
 CORE gui will therefore fail to open the *imn files included in this distro.
-If this is a problem, first try looking for the "legacy" CORE gui under the
+If this is a problem, first try looking for "core-gui-legacy" under the
 same install directory where "core-gui" was installed and try to open the
 *imn files with the legacy gui. If the legacy gui is not found or will not
 open the *.imn, consider reverting to an older version of CORE - CORE

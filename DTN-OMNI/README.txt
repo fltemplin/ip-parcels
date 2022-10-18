@@ -53,12 +53,13 @@ ION-DTN build:
 - go to ~/src/ION-DTN/ion-open-source-4.1.0
 - build and install using the following commands (should take 5-10mins):
 
-# ./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DLTPGSO -DLTPGRO -DLTPGSO_LIMIT=4"
+# ./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPGSO -DLTPGRO -DLTPPARCEL -DLTPGSO_LIMIT=8 -DLTPSTAT -DLTPRATE"
+
 # make
 # sudo make install
 # sudo ldconfig
 
-NOTE: - See the README under the ~/src/ION-DTN directory for other configure
+NOTE: - See: ~/src/ip-parcels/ION-DTN/README.ion-dtn for other configure
 commands to try, as many IP parcels options are enabled/disabled based on
 configure-time options. After changing a configuration, you may need to run
 "make clean" before again running "make" in order for the configuration
@@ -84,12 +85,30 @@ is still making progress, let it continue):
 # sudo make modules_install
 # sudo make install
 
+Note that linux kernel builds can proceed in unpredictable ways under
+the myriad various architectures they may be run under. Specific kernel
+build instructions are out of scope for this document and must be worked
+out according to the specific situation.
+
 4) Running tests
 Next, reboot into the new linux kernel you just installed. You may need
 to consult documentation on how to select the correct kernel at boot time.
-This is necessary to access the IP parcels support code in the kernel.Once
-you have booted into the new kernel decide which of the two machines will
-be the "source" and which will be the "sink".
+This is necessary to access the IP parcels support code in the kernel.
+
+We note at least one instance where booting the ip-parcels custom kernel
+causes the boot to hang indefinitely. If this happens under ubuntu, try
+the following steps:
+
+a) boot into stock kernel
+b) sudo vi /etc/initramfs-tools/initramfs.conf
+   /* search for MODULES and edit it such that it looks like below */
+c) MODULES=DEP
+d) sudo update-initramfs -c -k 5.10.67
+e) reboot to get into 5.10.67
+
+
+Once you have booted into the new kernel decide which of the two machines
+will be the "source" and which will be the "sink".
 
 First, on both the "source" and "sink", edit the three files named
 "ion_nodes" located under the DTN-OMNI/configs hierarchy and change
@@ -162,13 +181,8 @@ time. To experiment with different settings:
 
 - go to ~/src/ION-DTN/ion-open-source-4.1.0
 - run the command "make clean"
-- run "configure" again with various settings. The first example turns off
-  all of our code and runs with no performance tweaks. The second example
-  turns on all of our features and allows for fine-tuning of certain
-  parameters. The numbers given below are just examples.
-
-# ./configure --enable-bpv6
-# ./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=4 -DLTPGSO -DLTPGRO -DLTPGSO_LIMIT=16"
+- run "configure" again with various settings per
+  ~/src/ip-parcels/ION-DTN/README.ion-dtn.
 
 (To turn on ltp debugging, add "-DLTPDEBUG=1" to the configuration. When
 LTPDEBUG is enabled, the ion.log files will include huge numbers of lines

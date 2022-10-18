@@ -1,6 +1,9 @@
 IP Parcels and GSO/GRO are enabled through compile-time options set during
 the run of ./configure. First, do a "make clean", then issue ./configure using
-one of the following forms:
+one of the following forms. NOTE: if you find that the ION bpdriver/bpcounter
+commands are not working on your platform, try running the ./configure
+command again while also including the "-DLTPRATE" flag. This will cause
+the source to delay for a time between each successive send system call.
 
 ./configure --enable-bpv6 CFLAGS="-DUDP_MULTISEND -DMULTISEND_SEGMENT_SIZE=64000 -DMULTISEND_BATCH_LIMIT=2 -DLTPSTAT"
 

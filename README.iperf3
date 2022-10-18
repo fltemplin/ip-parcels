@@ -1,0 +1,17 @@
+The "iperf3" tool can be used to establish a baseline for raw UDP and TCP
+throughput for a given network configuration. Two nodes are needed; the
+"source" and the "sink". Assume the two nodes have IPv4 addresses assigned
+and can ping one another, and assume the sink is at '10.0.0.1' (change to
+match your environment). On the sink, run the command:
+
+   # iperf3 -s
+
+On the source, for UDP use the command:
+
+   # iperf3 -u -b 0 -l 64000 –Z -c 10.0.0.1
+
+The command sets bandwidth to "unlimited" and sets the UDP datagram size
+to "64000" bytes (smaller UDP datagram sizes can be specified, and "-Z"
+means "zero-copy"). For TCP, instead use the command: 
+
+   # iperf3 –Z -c 10.0.0.1

@@ -4,6 +4,10 @@ for the public domain ION-DTN/ion-open-source-4.1.0 and kernel/linux-5.10.67.
 The modified files in the ip-parcels hierarchy will be used to patch certain
 files in the vanilla ION and linux kernel hierarchies prior to building.
 
+To see what changes are introduced by ip-parcels, the scripts "ION.diff"
+and "KERNEL.diff" will produce a diff output showing the changes. These
+scripts must be run BEFORE overwriting the vanilla ION and linux files.
+
 To overwrite the vanilla ION and linux kernel files with the ip-parcels
 patches, the crude scripts "ION.out" and "KERNEL.out" are provided but with
 no documentation nor warranty. If you choose to use these scripts, please
