@@ -194,6 +194,7 @@ void	*udplsa_handle_datagrams(void *parm)
 			/* process non-final segments */
 			while (messageLength > segmentLength)
 			{
+#ifdef LTPPARCEL
 				/* csum non-null only for parcels */
 				if (csum && *csum)
 				{
@@ -217,6 +218,7 @@ void	*udplsa_handle_datagrams(void *parm)
 					goto gro_dropseg;
 					}
 				}
+#endif /* LTPPARCEL */
 				if (ltpHandleInboundSegment(segment,
 				    segmentLength) < 0)
 				{
@@ -226,7 +228,9 @@ void	*udplsa_handle_datagrams(void *parm)
 					rtp->running = 0;
 					goto taskyield;
 				}
+#ifdef LTPPARCEL
 gro_dropseg:
+#endif
 				segment += segmentLength;
 				messageLength -= segmentLength;
 #ifdef LTPSTAT
@@ -245,6 +249,7 @@ gro_dropseg:
 				goto taskyield;
 			}
 
+#ifdef LTPPARCEL
 			if (csum && *csum)
 			{
 				uint16_t chk;
@@ -266,6 +271,7 @@ gro_dropseg:
 				goto gro_dropseg2;
 				}
 			}
+#endif /* LTPPARCEL */
 
 			/* process message remainder */
 			if (ltpHandleInboundSegment(segment, messageLength) < 0)
@@ -278,7 +284,9 @@ gro_dropseg:
 #ifdef LTPSTAT
 			rtp->recvSegs++;
 #endif
+#ifdef LTPPARCEL
 gro_dropseg2:
+#endif
 			buffer += (UDPLSA_BUFSZ + 1);
 			segment = buffer;
 		}
